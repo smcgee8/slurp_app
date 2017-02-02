@@ -1,3 +1,3 @@
-web: shotgun slurp.rb --port=4567
+web: shotgun slurp.rb
 resque-web: resque-web --foreground
 resque: rake jobs:work
