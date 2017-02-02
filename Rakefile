@@ -2,6 +2,7 @@ require 'bundler/setup'
 Bundler.require(:default)
 require './slurp'
 require 'resque/tasks'
+require 'sinatra/activerecord/rake'
 
 task "resque:setup" do
   ENV['QUEUE'] = '*'
