@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby '2.2.6'
+ruby '2.3.3'
 
 gem "sinatra"
 gem "activerecord"
@@ -14,3 +14,4 @@ gem "rake"
 gem "dropbox_api"
 gem "json"
 gem "rubysl-ostruct"
+gem "redis"
