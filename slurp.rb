@@ -38,7 +38,7 @@ module Process
     client = DropboxApi::Client.new(dropbox_auth_token)
 
     #
-    chunk_size = 8 * 1024 * 1024
+    chunk_size = 4 * 1024 * 1024
     #
     open(file_desc.url_private, {"Authorization" => "Bearer #{bot_access_token}"}) do |f|
 
@@ -47,7 +47,7 @@ module Process
         client.upload(path, f.read, {mode: :overwrite})
       #
       else
-        start_resp = client.upload_sesssion_start()
+        start_resp = client.upload_session_start()
         cursor = {session_id: start_resp.session_id, offset: f.tell()}
         commit = {path: path, mode: :overwrite}
         puts cursor.session_id
