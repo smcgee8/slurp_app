@@ -57,18 +57,31 @@ module Update
 
     #Interate through channels to find all shared files
     channels.each do |channel|
-      #Receive list of files for a particular channel
-      files = post('https://slack.com/api/files.list',
-                  {token: user_access_token, channel: channel.id}).files
 
-      #Add each file in the list to the queue for Process jobs
-      files.each do |file|
-        data["event"]["table"]["file_id"] = file.id
-        Resque.enqueue(Process, data)
+      #Receive first list of files for a particular channel and check pages
+      file_list = post('https://slack.com/api/files.list',
+                  {token: user_access_token, channel: channel.id})
+      pages = file_list.paging.pages
+
+      #Iterate through all the pages
+      (1..pages).each do |n|
+
+        #If past the 1st page, pull the next page
+        if n > 1
+          file_list = post('https://slack.com/api/files.list',
+                      {token: user_access_token, channel: channel.id, page: n})
+        end
+
+        #Add each file in the list to the queue for Process jobs
+        files = file_list.files
+        files.each do |file|
+          data["event"]["table"]["file_id"] = file.id
+          Resque.enqueue(Process, data)
+        end
+
+        #Post info about this channel to console
+        puts "#{files.count} files identified in channel \"#{channel.name}\" and enqueued for processing."
       end
-
-      #Post info about this channel to console
-      puts "#{files.count} files identified in channel \"#{channel.name}\" and enqueued for processing."
     end
   end
 end
@@ -140,8 +153,7 @@ get '/oauth' do
                                       state: state)
 
     #Send URL to the team via Slurp bot on Slack
-    send_message("Hello! There's just one more step to complete setup —
-                 Please click this link to authorize your Dropbox account: #{url}",
+    send_message("Hello! There's just one more step to complete setup — Please click this link to authorize your Dropbox account: #{url}",
                  team.bot_access_token,
                  team.user_id)
 
@@ -168,9 +180,7 @@ get '/oauth2' do
     team.update(dropbox_auth_token: auth_bearer.token)
 
     #Confirm setup completion via Slurp bot on Slack
-    send_message("Setup is all done! Invite me (@slurp) to channels you want
-                 to keep synced. To resync all files, just send me a message
-                 that says 'update all'.",
+    send_message("Setup is all done! Invite me (@slurp) to channels you want to keep synced. To resync all files, just send me a message that says 'update all'.",
                  team.bot_access_token,
                  team.user_id)
 
