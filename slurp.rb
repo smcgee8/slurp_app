@@ -50,11 +50,11 @@ module Process
         start_resp = client.upload_session_start(f.read(chunk_size))
         cursor = {session_id: start_resp.session_id, offset: f.tell()}
         commit = {path: path, mode: :overwrite}
-        puts cursor.session_id
+        puts cursor[:session_id]
 
         while f.eof == false
             client.upload_session_append_v2(cursor, f.read(chunk_size))
-            cursor.offset = f.tell()
+            cursor[:offset] = f.tell()
         end
         puts client.upload_session_finish(cursor, commit)
 
