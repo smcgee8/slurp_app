@@ -39,7 +39,7 @@ module Process
     #Files will be sent in 4 megabyte chunks
     chunk_size = 4 * 1024 * 1024
     #Open IO with file's Slack url
-    URL(file_desc.url_private).open({"Authorization" => "Bearer #{bot_access_token}"}) do |f|
+    URI(file_desc.url_private).open({"Authorization" => "Bearer #{bot_access_token}"}) do |f|
       #If file is less than chunk-size, we can take it all at once
       if file_desc.size < chunk_size
         client.upload(path, f.read, {mode: :overwrite})
