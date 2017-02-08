@@ -23,17 +23,43 @@ module Process
     file_desc = post('https://slack.com/api/files.info',
                     {token: bot_access_token, file: file_id})
                     .file
-    file_contents = RestClient.get(file_desc.url_private,
-                                  {"Authorization" => "Bearer #{bot_access_token}"})
-                                  .body
+    #file_contents = RestClient.get(file_desc.url_private,
+    #                              {"Authorization" => "Bearer #{bot_access_token}"})
+    #                              .body
     channel_name = post('https://slack.com/api/channels.info',
                        {token: bot_access_token, channel: file_desc.channels[0]})
                        .channel.name
 
-    #Connect to Dropbox API and upload file
+    #Determine title and path for new Dropbox file
+    title = file_desc.title.encode(Encoding.find('UTF-8'), {invalid: :replace, undef: :replace, replace: ''})
+    path = "/#{channel_name}/#{file_desc.timestamp}_#{title}.#{file_desc.filetype}"
+
+    #Connect to Dropbox API
     client = DropboxApi::Client.new(dropbox_auth_token)
-    path = "/#{channel_name}/#{file_desc.timestamp}_#{file_desc.name}"
-    client.upload(path, file_contents, {mode: :overwrite})
+
+    #
+    chunk_size = 8 * 1024 * 1024
+    #
+    open(file_desc.url_private, {"Authorization" => "Bearer #{bot_access_token}"}) do |f|
+
+      #
+      if file_desc.size < chunk_size
+        client.upload(path, f.read, {mode: :overwrite})
+      #
+      else
+        start_resp = client.upload_sesssion_start()
+        cursor = {session_id: start_resp.session_id, offset: f.tell()}
+        commit = {path: path, mode: :overwrite}
+        puts cursor.session_id
+
+        while f.eof == false
+          client.upload_session_append_v2(cursor, f.read(chunk_size))
+          cursor.offset = f.tell()
+        end
+
+        client.upload_session_finish(cursor, commit)
+      end
+    end
 
     #Announce to console that the job has been processed
     puts "Job for file at timestamp \"#{file_desc.timestamp}\" processed"
