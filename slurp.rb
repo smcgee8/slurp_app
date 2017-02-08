@@ -13,7 +13,6 @@ module Process
   @queue = :files
 
   def self.perform(data)
-
     #Acquire info to interface with Dropbox & Slack APIs
     team = Team.find_by(team_id: data["team_id"])
     bot_access_token = team.bot_access_token
@@ -38,9 +37,40 @@ module Process
 
     #Announce to console that the job has been processed
     puts "Job for file at timestamp \"#{file_desc.timestamp}\" processed"
-
   end
+end
 
+#Resque job for a request to update all files
+module Update
+  @queue = :requests
+
+  def self.perform(data)
+    #Acquire info to interface with Dropbox & Slack APIs
+    team = Team.find_by(team_id: data["team_id"])
+    bot_access_token = team.bot_access_token
+    user_access_token = team.access_token
+
+    #Find channels in which slurp bot is a member
+    channels = post('https://slack.com/api/channels.list',
+               {token: bot_access_token})
+               .channels.select{|channel| channel.is_member == true}
+
+    #Interate through channels to find all shared files
+    channels.each do |channel|
+      #Receive list of files for a particular channel
+      files = post('https://slack.com/api/files.list',
+                  {token: user_access_token, channel: channel.id}).files
+
+      #Add each file in the list to the queue for Process jobs
+      files.each do |file|
+        data["event"]["table"]["file_id"] = file.id
+        Resque.enqueue(Process, data)
+      end
+
+      #Post info about this channel to console
+      puts "#{files.count} files identified in channel \"#{channel.name}\" and enqueued for processing."
+    end
+  end
 end
 
 ## ROUTES ######################################################################
@@ -61,7 +91,6 @@ post '/events' do
 
   #Decide what to do based on type of callback
   case data.type
-
   #Verification response for registering a new Slack Event API endpoint
   when "url_verification"
     content_type :json
@@ -72,11 +101,17 @@ post '/events' do
     #If it's a file sharing event, enqueue a job to process the file
     if data.event.type == "file_shared"
       Resque.enqueue(Process, data.marshal_dump)
-    end
-  end
 
-  #Respond to Slack API that we received the callback (within 3 seconds)
-  return 200
+    #If it's a message that says "update all", enqueue an update request
+    elsif data.event.type == "message"
+      if data.event.text == "update all"
+        Resque.enqueue(Update, data.marshal_dump)
+      end
+    end
+
+    #Need to respond to Slack within 3 seconds to prevent another callback
+    return 200
+  end
 end
 
 #Slack authorization for new teams
@@ -137,7 +172,10 @@ end
 
 #Save new team to the database
 def save_team(input)
-  team = Team.new do |t|
+  #Only create new team entry if team_id is new, otherwise only update scope
+  t = Team.find_by(team_id: input.team_id)
+  if t == nil
+    t = Team.new
     t.access_token = input.access_token
     t.scope = input.scope
     t.user_id = input.user_id
@@ -145,14 +183,17 @@ def save_team(input)
     t.team_id = input.team_id
     t.bot_user_id = input.bot.bot_user_id
     t.bot_access_token = input.bot.bot_access_token
+  else
+    t.scope = input.scope
   end
-  team.save
-  return team
+
+  #Save updates and return
+  t.save
+  return t
 end
 
 #Send a message from the token user (usually Slurp bot) to the primary team user
 def send_message(mes,token,user_id)
-
   #Open a direct message
   options = {
     token: token,
@@ -167,14 +208,15 @@ def send_message(mes,token,user_id)
     text: mes
   }
   post('https://slack.com/api/chat.postMessage', options)
-
 end
 
 #Post to an API endpoint and store response in a structure
 def post(endpoint, options)
+  #Send request
   res = RestClient.post endpoint,
                         options,
                         content_type: :json
 
+  #Process and return response
   return JSON.parse(res.body, object_class: OpenStruct)
 end
