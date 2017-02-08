@@ -140,9 +140,13 @@ get '/oauth' do
                                       state: state)
 
     #Send URL to the team via Slurp bot on Slack
-    send_message("Please click the link to complete account setup: #{url}",
+    send_message("Hello! There's just one more step to complete setup —
+                 Please click this link to authorize your Dropbox account: #{url}",
                  team.bot_access_token,
                  team.user_id)
+
+   #Dispaly success page to indicate that account creation is complete
+   erb :success
   end
 end
 
@@ -162,6 +166,13 @@ get '/oauth2' do
     auth_bearer = authenticator.get_token(params['code'],
                                           redirect_uri: ENV['DROPBOX_REDIRECT_URI'])
     team.update(dropbox_auth_token: auth_bearer.token)
+
+    #Confirm setup completion via Slurp bot on Slack
+    send_message("Setup is all done! Invite me (@slurp) to channels you want
+                 to keep synced. To resync all files, just send me a message
+                 that says 'update all'.",
+                 team.bot_access_token,
+                 team.user_id)
 
     #Dispaly success page to indicate that account creation is complete
     erb :success
