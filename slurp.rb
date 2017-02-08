@@ -23,41 +23,36 @@ module Process
     file_desc = post('https://slack.com/api/files.info',
                     {token: bot_access_token, file: file_id})
                     .file
-    #file_contents = RestClient.get(file_desc.url_private,
-    #                              {"Authorization" => "Bearer #{bot_access_token}"})
-    #                              .body
     channel_name = post('https://slack.com/api/channels.info',
                        {token: bot_access_token, channel: file_desc.channels[0]})
                        .channel.name
 
     #Determine title and path for new Dropbox file
-    title = file_desc.title.encode(Encoding.find('UTF-8'), {invalid: :replace, undef: :replace, replace: ''})
+    title = file_desc.title
+                     .encode(Encoding.find('UTF-8'), {invalid: :replace, undef: :replace, replace: ''})
+                     .delete(".#{file_desc.filetype}")
     path = "/#{channel_name}/#{file_desc.timestamp}_#{title}.#{file_desc.filetype}"
 
     #Connect to Dropbox API
     client = DropboxApi::Client.new(dropbox_auth_token)
 
-    #
+    #Files will be sent in 4 megabyte chunks
     chunk_size = 4 * 1024 * 1024
-    #
-    open(file_desc.url_private, {"Authorization" => "Bearer #{bot_access_token}"}) do |f|
-
-      #
+    #Open IO with file's Slack url
+    URL(file_desc.url_private).open({"Authorization" => "Bearer #{bot_access_token}"}) do |f|
+      #If file is less than chunk-size, we can take it all at once
       if file_desc.size < chunk_size
         client.upload(path, f.read, {mode: :overwrite})
-      #
+      #If file is larger than chunk-size, we will take it in increments using Dropbox upload sessions interface
       else
         start_resp = client.upload_session_start(f.read(chunk_size))
         cursor = {session_id: start_resp.session_id, offset: f.tell()}
         commit = {path: path, mode: :overwrite}
-        puts cursor[:session_id]
-
+        #Continue to read and upload file until we reach the end
         while f.eof == false
             client.upload_session_append_v2(cursor, f.read(chunk_size))
             cursor[:offset] = f.tell()
         end
-        puts client.upload_session_finish(cursor, commit)
-
       end
     end
 
