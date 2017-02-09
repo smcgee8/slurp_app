@@ -32,7 +32,6 @@ module Process
                      .encode(Encoding.find('UTF-8'), {invalid: :replace, undef: :replace, replace: ''})
                      .delete(".#{file_desc.filetype}")
     path = "/#{channel_name}/#{file_desc.timestamp}_#{title}.#{file_desc.filetype}"
-    puts path
 
     #Connect to Dropbox API
     client = DropboxApi::Client.new(dropbox_auth_token)
@@ -53,7 +52,6 @@ module Process
         while f.eof == false
             client.upload_session_append_v2(cursor, f.read(chunk_size))
             cursor[:offset] = f.tell()
-            puts "inside while loop"
         end
         #Close upload sessions
         client.upload_session_finish(cursor, commit)
