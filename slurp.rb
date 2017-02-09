@@ -31,6 +31,7 @@ module Process
     title = file_desc.title
                      .encode(Encoding.find('UTF-8'), {invalid: :replace, undef: :replace, replace: ''})
                      .gsub(/.#{file_desc.filetype}/i, "")
+                     .delete("/ ")
     path = "/#{channel_name}/#{file_desc.timestamp}_#{title}.#{file_desc.filetype}"
 
     #Connect to Dropbox API
