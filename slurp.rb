@@ -55,6 +55,8 @@ module Process
             cursor[:offset] = f.tell()
             puts "inside while loop"
         end
+        #Close upload sessions
+        client.upload_session_finish(cursor, commit)
       end
     end
 
