@@ -30,7 +30,7 @@ module Process
     #Determine title and path for new Dropbox file
     title = file_desc.title
                      .encode(Encoding.find('UTF-8'), {invalid: :replace, undef: :replace, replace: ''})
-                     .gsub(/#{file_desc.filetype}/i, "")
+                     .gsub(/.#{file_desc.filetype}/i, "")
     path = "/#{channel_name}/#{file_desc.timestamp}_#{title}.#{file_desc.filetype}"
 
     #Connect to Dropbox API
