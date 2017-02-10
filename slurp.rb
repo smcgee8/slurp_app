@@ -125,8 +125,7 @@ post '/events' do
   data = JSON.parse(request.body.read, object_class: OpenStruct)
 
   #Print request headers for retries to console
-  puts "Retry Num: #{request["HTTP_X_SLACK_RETRY_NUM"] ||= 0} #{request["HTTP_X_SLACK_RETRY_REASON"]}"
-  puts JSON.pretty_generate(request.env)
+  puts "Retry Num: #{request.env["HTTP_X_SLACK_RETRY_NUM"] ||= 0} #{request.env["HTTP_X_SLACK_RETRY_REASON"]}"
 
   #Stop processing if message not verified to be from Slack
   halt 500 if data.token != ENV['SLACK_VERIFICATION_TOKEN']
