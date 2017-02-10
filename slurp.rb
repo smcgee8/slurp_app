@@ -118,26 +118,26 @@ get '/' do
   erb :index
 end
 
-#Event callback from Slack
+#Receive event from Slack
 post '/events' do
-  #Parse event callback from Slack
+  #Parse event
   request.body.rewind
   data = JSON.parse(request.body.read, object_class: OpenStruct)
 
-  #Print request headers to console
-  puts JSON.pretty_generate(request.env)
+  #Print request headers to console if Slack Events API is retrying
+  puts "Received retry: #{request["HTTP_X_SLACK_RETRY_NUM"]}, #{request["HTTP_X_SLACK_RETRY_REASON"]}"
 
   #Stop processing if message not verified to be from Slack
   halt 500 if data.token != ENV['SLACK_VERIFICATION_TOKEN']
 
-  #Decide what to do based on type of callback
+  #Decide what to do based on type of event
   case data.type
   #Verification response for registering a new Slack Event API endpoint
   when "url_verification"
     content_type :json
     return {challenge: data["challenge"]}.to_json
 
-  #Callback for incidence of a specified Event
+  #Type for detected event
   when "event_callback"
     #If it's a file sharing event, enqueue a job to process the file
     if data.event.type == "file_shared"
@@ -150,14 +150,14 @@ post '/events' do
       end
     end
 
-    #Need to respond to Slack within 3 seconds to prevent another callback
+    #Need to respond to Slack within 3 seconds to prevent Slack from retrying
     200
   end
 end
 
 #Slack authorization for new teams
 get '/oauth' do
-  #Has to have a code to be a valid callback
+  #Has to have a code to be a valid request
   if params['code']
 
     #Authenticate Slack connection and store new team info in our database
@@ -192,7 +192,7 @@ end
 
 #Complete Dropbox authorization for new teams
 get '/oauth2' do
-  #Has to have a code to be a valid callback
+  #Has to have a code to be a valid request
   if params['code']
 
     #Look up team info using the state identifier previously established
