@@ -33,9 +33,9 @@ module Process
                      .gsub(/.#{file_desc.filetype}/i, "")
                      .gsub(" ", "_")
                      .delete("/")
-    path = "/#{team.team_name} Files/#{channel_name}/#{file_desc.timestamp}_#{title}.#{file_desc.filetype}"
+    path = "/#{team.team_name} Slack Files/#{channel_name}/#{file_desc.timestamp}_#{title}.#{file_desc.filetype}"
 
-    #Connect to Dropbox API 
+    #Connect to Dropbox API
     client = DropboxApi::Client.new(dropbox_auth_token)
 
     #Files will be sent in 4 megabyte chunks
