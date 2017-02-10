@@ -150,8 +150,8 @@ post '/events' do
       end
     end
 
-    #Need to respond to Slack within 3 seconds to prevent Slack from retrying
-    200
+    #Need to respond to Slack with 200 code within 3 seconds to prevent retry
+    status 200
   end
 end
 
