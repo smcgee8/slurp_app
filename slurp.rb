@@ -44,12 +44,12 @@ module Process
     open(file_desc.url_private, {"Authorization" => "Bearer #{bot_access_token}"}) do |f|
       #If file is less than chunk-size, we can take it all at once
       if file_desc.size < chunk_size
-        client.upload(path, f.read, {mode: :overwrite})
+        client.upload(path, f.read, {mode: :overwrite, mute: true})
       #If file is larger than chunk-size, we will take it in increments using Dropbox upload sessions interface
       else
         start_resp = client.upload_session_start(f.read(chunk_size))
         cursor = {session_id: start_resp.session_id, offset: f.tell()}
-        commit = {path: path, mode: :overwrite}
+        commit = {path: path, mode: :overwrite, mute: true}
         #Continue to read and upload file until we reach the end
         while f.eof == false
             client.upload_session_append_v2(cursor, f.read(chunk_size))
