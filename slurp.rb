@@ -123,6 +123,7 @@ post '/events' do
   #Parse event callback from Slack
   request.body.rewind
   data = JSON.parse(request.body.read, object_class: OpenStruct)
+  puts data
 
   #Stop processing if message not verified to be from Slack
   halt 500 if data.token != ENV['SLACK_VERIFICATION_TOKEN']
@@ -148,7 +149,7 @@ post '/events' do
     end
 
     #Need to respond to Slack within 3 seconds to prevent another callback
-    return 200
+    200
   end
 end
 
