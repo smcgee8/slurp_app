@@ -124,10 +124,8 @@ post '/events' do
   request.body.rewind
   data = JSON.parse(request.body.read, object_class: OpenStruct)
 
-  #Print request headers to console if Slack Events API is retrying
-  if request["HTTP_X_SLACK_RETRY_NUM"] != nil
-    puts "Received retry: #{request["HTTP_X_SLACK_RETRY_NUM"]}, #{request["HTTP_X_SLACK_RETRY_REASON"]}"
-  end
+  #Print request headers for retries to console
+  puts "Retry Num: #{request["HTTP_X_SLACK_RETRY_NUM"] ||= 0} #{request["HTTP_X_SLACK_RETRY_REASON"]}"
 
   #Stop processing if message not verified to be from Slack
   halt 500 if data.token != ENV['SLACK_VERIFICATION_TOKEN']
