@@ -124,6 +124,8 @@ post '/events' do
   request.body.rewind
   data = JSON.parse(request.body.read, object_class: OpenStruct)
   puts data
+  puts headers
+  puts request.headers
 
   #Stop processing if message not verified to be from Slack
   halt 500 if data.token != ENV['SLACK_VERIFICATION_TOKEN']
