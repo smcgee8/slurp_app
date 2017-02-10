@@ -123,9 +123,9 @@ post '/events' do
   #Parse event callback from Slack
   request.body.rewind
   data = JSON.parse(request.body.read, object_class: OpenStruct)
-  puts data
-  puts headers
-  puts request.headers
+  puts data rescue nil
+  puts headers rescue nil
+  puts request.headers rescue nil
 
   #Stop processing if message not verified to be from Slack
   halt 500 if data.token != ENV['SLACK_VERIFICATION_TOKEN']
