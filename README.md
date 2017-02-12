@@ -21,9 +21,9 @@ You may wish for Slurp to index files posted to a channel prior to inviting the 
 ## Deployment
 
 ## Built With
-*[Sinatra](http://www.sinatrarb.com/) — Rack-based web application framework
-*[Postgres](https://www.postgresql.org/) — Database
-*[Resque](https://github.com/resque/resque) / [Redis](https://redis.io/) — Job queue
-*[Bootstrap](http://getbootstrap.com/) — HTML & CSS framework
+* [Sinatra](http://www.sinatrarb.com/) — Rack-based web application framework
+* [Postgres](https://www.postgresql.org/) — Database
+* [Resque](https://github.com/resque/resque) / [Redis](https://redis.io/) — Job queue
+* [Bootstrap](http://getbootstrap.com/) — HTML & CSS framework
 
 ## Usage & License
