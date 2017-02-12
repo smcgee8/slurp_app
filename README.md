@@ -8,20 +8,22 @@ The project is currently deployed at https://sheltered-bastion-69963.herokuapp.c
 
 Once Slurp has been added to your Slack team, the Slurp bot will send you a direct message with a link to connect Slurp to your Dropbox account.
 
-Once setup is complete, the Slurp bot can be invited to any channel in Slack to begin indexing files posted to that channel:
+After completing setup, the Slurp bot can be invited to any channel in Slack to begin indexing files posted to that channel:
 ```
 /invite @slurp
 ```
 Files will be stored on the connected Dropbox account:
 ```
-/Slurp App/**[Team Name]**/**[Channel Name]**
+/Slurp App/[Team Name]/[Channel Name]
 ```
-You may wish for Slurp to index files posted to a channel prior to inviting the bot to that channel. Sending 'update all' to the Slurp bot as a direct message will fully index the files in all channels the Slurp bot is currently a member of.
-
-
+You may wish for Slurp to index files posted to a channel prior to inviting the bot to that channel. Sending **'update all'** to the Slurp bot as a direct message will fully index the files in all channels the Slurp bot is currently a member of.
 
 ## Deployment
 
 ## Built With
+*[Sinatra](http://www.sinatrarb.com/) — Rack-based web application framework
+*[Postgres](https://www.postgresql.org/) — Database
+*[Resque](https://github.com/resque/resque) / [Redis](https://redis.io/) — Job queue
+*[Bootstrap](http://getbootstrap.com/) — HTML & CSS framework
 
 ## Usage & License
