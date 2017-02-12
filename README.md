@@ -21,11 +21,11 @@ You may wish for Slurp to index files posted to a channel prior to inviting the 
 ## Deployment
 Slurp can be modified & independently deployed easily using Heroku.
 
-1. Clone the repository (or your own fork) to create a local copy.
+\1. Clone the repository (or your own fork) to create a local copy.
 ```
 $ git clone https://github.com/USERNAME/REPOSITORY
 ```
-2. Create a new Heroku application with the appropriate add-ons.
+\2. Create a new Heroku application with the appropriate add-ons.
 ```
 $ heroku create
 $ heroku addons:create heroku-postgresql:hobby-dev
