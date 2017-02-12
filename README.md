@@ -23,7 +23,7 @@ Slurp can be modified & independently deployed easily using Heroku.
 
 1. Clone the repository (or your own fork) to create a local copy.  
 ```  
-$ git clone https://github.com/USERNAME/REPOSITORY
+$ git clone https://github.com/USERNAME/REPOSITORY  
 ```  
 2. Create a new Heroku application with the appropriate add-ons.
 ```
