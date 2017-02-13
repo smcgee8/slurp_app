@@ -47,6 +47,7 @@ Slurp can also be modified & independently deployed easily using Heroku.
   * SLACK_CLIENT_ID — Slack Client ID
   * SLACK_CLIENT_SECRET — Slack Client Secret
   * SLACK_VERIFICATION_TOKEN — Slack Verification Token  
+  
   ```
   $ heroku config:set [ENV_VARIABLE]=[VALUE]
   ```
