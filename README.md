@@ -69,4 +69,6 @@ Slurp can also be modified & independently deployed easily using Heroku.
 ## License
 This project is licensed under the terms of the [MIT license](LICENSE.txt).
 
+If you have any questions, don't hesitate to reach out to me — sean(dot)a(dot)mcgee(at)gmail(dot)com
+
 **DISCLAIMER:** Slurp is a hobby project and has not been audited for security. Slurp is not suited for applications involving the exchange of confidential / sensitive information. Use at your own risk. The author assumes no responsibility for any breaches that result from the use of Slurp.
