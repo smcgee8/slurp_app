@@ -16,10 +16,10 @@ Files will be stored on the connected Dropbox account in a folder created by Slu
 ```
 /Slurp App/[TEAM NAME]/[CHANNEL NAME]
 ```
-You may wish for Slurp to index files posted to a channel prior to inviting the bot to that channel. Sending **'update all'** to the Slurp bot as a direct message will fully index the files in all channels the Slurp bot is currently a member of.
+You may wish for Slurp to index files posted to a channel prior to inviting the bot to that channel. Sending **'update all'** to the Slurp bot as a direct message will fully index files in all channels the Slurp bot is currently a member of (including the full file history).
 
 ## Deployment
-Slurp can be modified & independently deployed easily using Heroku.
+Slurp can also be modified & independently deployed easily using Heroku.
 
 1. Clone the repository (or your own fork) to create a local copy.  
   ```
@@ -40,15 +40,13 @@ Slurp can be modified & independently deployed easily using Heroku.
 
 1. Create developer applications on [Slack](https://api.slack.com/apps) and [Dropbox](https://www.dropbox.com/developers/apps) API websites to acquire access to endpoints for the two platforms.
 
-1. Once the applications have been created, you will be able to access several tokens necessary to configure environmental variables on Heroku.  
-
-  The following variables will need to be set by you:
-  * DROPBOX_CLIENT_ID — Dropbox **App Key**
-  * DROPBOX_CLIENT_SECRET — Dropbox **App Secret**
-  * DROPBOX_REDIRECT_URI — **[Heroku Application URL]/oauth2**
-  * SLACK_CLIENT_ID — Slack **Client ID** in **Basic Information** tab
-  * SLACK_CLIENT_SECRET — Slack **Client Secret** in **Basic Information** tab
-  * SLACK_VERIFICATION_TOKEN — Slack **Verification Token** in **Basic Information** tab
+1. Once the API applications have been created, you will be able to access several tokens necessary to configure environmental variables on Heroku. The following variables will need to be set by you (all can be found in the configuration pages of your Slack/Dropbox appications):  
+  * DROPBOX_CLIENT_ID — Dropbox App Key
+  * DROPBOX_CLIENT_SECRET — Dropbox App Secret
+  * DROPBOX_REDIRECT_URI — [Heroku Application URL]/oauth2
+  * SLACK_CLIENT_ID — Slack Client ID
+  * SLACK_CLIENT_SECRET — Slack Client Secret
+  * SLACK_VERIFICATION_TOKEN — Slack Verification Token  
   ```
   $ heroku config:set [ENV_VARIABLE]=[VALUE]
   ```
@@ -69,4 +67,4 @@ Slurp can be modified & independently deployed easily using Heroku.
 * [Bootstrap](http://getbootstrap.com/) — HTML & CSS framework
 
 ## Usage & License
-DISCLAIMER: Slurp is a hobby project and has not been audited for security. Slurp is not suited for applications involving the exchange of confidential / sensitive information. Use at your own risk. The author assumes no responsibility for any data breaches that result from the use of Slurp.
+**DISCLAIMER:** Slurp is a hobby project and has not been audited for security. Slurp is not suited for applications involving the exchange of confidential / sensitive information. Use at your own risk. The author assumes no responsibility for any data breaches that result from the use of Slurp.
