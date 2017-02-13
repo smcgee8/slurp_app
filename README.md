@@ -38,8 +38,9 @@ Slurp can also be modified & independently deployed easily using Heroku.
     $ git push heroku master
     ```
 
-1. Create developer applications on [Slack](https://api.slack.com/apps) and [Dropbox](https://www.dropbox.com/developers/apps) API websites to acquire access to endpoints for the two platforms.  
-  Once the API applications have been created, you will be able to access several tokens necessary to configure environmental variables on Heroku. Several variables will need to be set by you (all can be found in the configuration pages of your Slack/Dropbox appications).  
+1. Your application must be registered on the [Slack](https://api.slack.com/apps) and [Dropbox](https://www.dropbox.com/developers/apps) developer websites to acquire access to API endpoints.
+
+  Once your application has been "created" on each developer platform, you will be able to retrieve tokens necessary for configuring several of your Heroku application's environmental variables.
   * DROPBOX_CLIENT_ID — Dropbox App Key
   * DROPBOX_CLIENT_SECRET — Dropbox App Secret
   * DROPBOX_REDIRECT_URI — [Heroku Application URL]/oauth2
@@ -52,13 +53,13 @@ Slurp can also be modified & independently deployed easily using Heroku.
   $ heroku config:set [ENV_VARIABLE]=[VALUE]
   ```
 
-1. Return to the Slack & Dropbox developer application configuration sites to complete setup.  
-  1. Slack Application Configuration  
+1. Complete configuration on Slack / Dropbox developer platforms.  
+  1. Slack Configuration  
     * In the **OAuth & Permissions** tab, add **[Heroku Application URL]/oauth** to the **Redirect URLs** section.
     * In the **Event Subscriptions** tab, set the **Request URL** to **[Heroku Application URL]/events** and wait for verification to complete (your application must be deployed to Heroku for this to work).
     * Also in the **Event Subscriptions** tab, add **file_shared** and **message.im** to the **Bot Events** section and click **Save Changes**
 
-  2. Dropbox Application Configuration  
+  2. Dropbox Configuration  
     * Add **[Heroku Application URL]/oauth2** to the 'Redirect URIs' section.
 
 ## Built With
