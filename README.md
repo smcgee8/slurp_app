@@ -15,7 +15,7 @@ After completing setup, the Slurp bot can be invited to any channel in Slack to 
 
 Files will be stored on the connected Dropbox account in a folder created by Slurp.  
   ```
-  /Slurp App/[TEAM NAME]/[CHANNEL NAME]
+/Slurp App/[TEAM NAME]/[CHANNEL NAME]
   ```
 You may wish for Slurp to index files posted to a channel prior to inviting the bot to that channel. Sending **'update all'** to the Slurp bot as a direct message will fully index the files in all channels the Slurp bot is currently a member of.
 
