@@ -45,8 +45,9 @@ Slurp can also be modified & independently deployed easily using Heroku.
   * DROPBOX_REDIRECT_URI — [Heroku Application URL]/oauth2
   * SLACK_CLIENT_ID — Slack Client ID
   * SLACK_CLIENT_SECRET — Slack Client Secret
-  * SLACK_VERIFICATION_TOKEN — Slack Verification Token  
-  A simple Heroku command can be used to set each variable.
+  * SLACK_VERIFICATION_TOKEN — Slack Verification Token
+
+  A simple Heroku command can be used to set each variable.  
   ```
   $ heroku config:set [ENV_VARIABLE]=[VALUE]
   ```
