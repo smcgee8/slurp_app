@@ -40,18 +40,16 @@ Slurp can also be modified & independently deployed easily using Heroku.
 
 1. Create developer applications on [Slack](https://api.slack.com/apps) and [Dropbox](https://www.dropbox.com/developers/apps) API websites to acquire access to endpoints for the two platforms.
 
-1. Once the API applications have been created, you will be able to access several tokens necessary to configure environmental variables on Heroku. The following variables will need to be set by you (all can be found in the configuration pages of your Slack/Dropbox appications):  
+1. Once the API applications have been created, you will be able to access several tokens necessary to configure environmental variables on Heroku. Several variables will need to be set by you (all can be found in the configuration pages of your Slack/Dropbox appications).
+```
+$ heroku config:set [ENV_VARIABLE]=[VALUE]
+```
   * DROPBOX_CLIENT_ID — Dropbox App Key
   * DROPBOX_CLIENT_SECRET — Dropbox App Secret
   * DROPBOX_REDIRECT_URI — [Heroku Application URL]/oauth2
   * SLACK_CLIENT_ID — Slack Client ID
   * SLACK_CLIENT_SECRET — Slack Client Secret
   * SLACK_VERIFICATION_TOKEN — Slack Verification Token  
-
-
-  ```
-  $ heroku config:set [ENV_VARIABLE]=[VALUE]
-  ```
 
 1. Return to the Slack & Dropbox developer application configuration sites to complete setup.  
   1. Slack Application Configuration  
