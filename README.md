@@ -26,30 +26,29 @@ Slurp can be modified & independently deployed easily using Heroku.
   $ git clone https://github.com/USERNAME/REPOSITORY
   ```
 
-2. Create a new Heroku application with the appropriate add-ons.
-```
-$ heroku create
-$ heroku addons:create heroku-postgresql:hobby-dev
-$ heroku addons:create heroku-redis:hobby-dev
-```
-3. Configure environmental variables on Heroku.
-```
-$ heroku config:set [ENV_VARIABLE]=[VALUE]
-```
-Some environmental variables are set automatically (e.g. DATABASE_URL), but the following variables will need to be set by you:
-* DROPBOX_CLIENT_ID
-* DROPBOX_CLIENT_SECRET
-* DROPBOX_REDIRECT_URI
-* SLACK_CLIENT_ID
-* SLACK_CLIENT_SECRET
-* SLACK_VERIFICATION_TOKEN
+2. Create a new Heroku application with the appropriate add-ons.  
+  ```
+  $ heroku create
+  $ heroku addons:create heroku-postgresql:hobby-dev
+  $ heroku addons:create heroku-redis:hobby-dev
+  ```
 
-Push local repository to Heroku to build & deploy application
-```
-$ git push heroku master
-```
+3. Configure environmental variables on Heroku.  
+  ```
+  $ heroku config:set [ENV_VARIABLE]=[VALUE]
+  ```
+  Some environmental variables are set automatically (e.g. DATABASE_URL), but the following variables will need to be set by you:
+  * DROPBOX_CLIENT_ID
+  * DROPBOX_CLIENT_SECRET
+  * DROPBOX_REDIRECT_URI
+  * SLACK_CLIENT_ID
+  * SLACK_CLIENT_SECRET
+  * SLACK_VERIFICATION_TOKEN
 
-
+4. Push local repository to Heroku to build & deploy application.  
+  ```
+  $ git push heroku master
+  ```
 
 ## Built With
 * [Sinatra](http://www.sinatrarb.com/) — Rack-based web application framework
