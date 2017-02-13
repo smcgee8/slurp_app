@@ -1,7 +1,7 @@
 # ![slurp_app](public/img/LogoBig.png)
 
 ## Synopsis
-Slurp makes life easier for teams who use Slack to communicate and Dropbox to store files. Simply invite the Slurp bot to any Slack channel and it will automatically copy any files posted there to its designated Dropbox folder.
+Slurp syncs files posted on Slack with your Dropbox. Simply invite the Slurp bot to any Slack channel you wish to index — whenever someone posts a new file, a copy will magically appear on Dropbox.
 
 ## Usage
 The project is currently deployed at https://sheltered-bastion-69963.herokuapp.com/ (it may take the page ~5-10 seconds to load if the app is currently idle). Anyone who wishes to install it for their team may do so there by clicking **Add to Slack**.
@@ -68,5 +68,7 @@ Slurp can also be modified & independently deployed easily using Heroku.
 * [Resque](https://github.com/resque/resque) / [Redis](https://redis.io/) — Job queue
 * [Bootstrap](http://getbootstrap.com/) — HTML & CSS framework
 
-## Usage & License
-**DISCLAIMER:** Slurp is a hobby project and has not been audited for security. Slurp is not suited for applications involving the exchange of confidential / sensitive information. Use at your own risk. The author assumes no responsibility for any data breaches that result from the use of Slurp.
+## License
+This project is licensed under the terms of the [MIT license](LICENSE.txt).
+
+**DISCLAIMER:** Slurp is a hobby project and has not been audited for security. Slurp is not suited for applications involving the exchange of confidential / sensitive information. Use at your own risk. The author assumes no responsibility for any breaches that result from the use of Slurp.
