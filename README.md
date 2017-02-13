@@ -55,9 +55,9 @@ Slurp can also be modified & independently deployed easily using Heroku.
 
 1. Complete configuration on Slack / Dropbox developer platforms.  
   1. Slack Configuration  
-    * In the **OAuth & Permissions** tab, add **[Heroku Application URL]/oauth** to the **Redirect URLs** section.
-    * In the **Event Subscriptions** tab, set the **Request URL** to **[Heroku Application URL]/events** and wait for verification to complete (your application must be deployed to Heroku for this to work).
-    * Also in the **Event Subscriptions** tab, add **file_shared** and **message.im** to the **Bot Events** section and click **Save Changes**
+    * In the OAuth & Permissions tab, add **[Heroku Application URL]/oauth** to the Redirect URLs section.
+    * In the Event Subscriptions tab, set the Request URL to **[Heroku Application URL]/events** and wait for verification to complete (your application must be deployed to Heroku for this to work).
+    * Also in the Event Subscriptions tab, add **file_shared** and **message.im** to the Bot Events section and click **Save Changes**.
 
   2. Dropbox Configuration  
     * Add **[Heroku Application URL]/oauth2** to the 'Redirect URIs' section.
