@@ -50,6 +50,7 @@ Slurp can also be modified & independently deployed easily using Heroku.
   ```
   $ heroku config:set [ENV_VARIABLE]=[VALUE]
   ```
+  You may also want to set RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD to secure your resque web monitoring page from public access.
 
 1. Complete additional configuration on Slack / Dropbox developer platforms.  
   1. Slack  
